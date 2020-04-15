@@ -40,7 +40,7 @@ public class UserService {
     }
 
     private UserModel toModel(UserEntity userEntity) {
-        return new UserModel(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName());
+        return new UserModel(userEntity.getId(), userEntity.getUsername());
     }
 
     public UserModel createUser(UserModel userModel) {
@@ -48,7 +48,7 @@ public class UserService {
     }
 
     private UserEntity fromModel(UserModel model) {
-        return new UserEntity(model.getFirstName(), model.getLastName());
+        return new UserEntity(model.getUsername());
     }
 
     //TODO Break away the getUserEntity part (with the throw error included ofc)
@@ -81,8 +81,7 @@ public class UserService {
     }
 
     private void updateEntity(UserModel receivedModel, UserEntity userEntity) {
-        userEntity.setFirstName(receivedModel.getLastName());
-        userEntity.setLastName(receivedModel.getFirstName());
+        userEntity.setUsername(receivedModel.getUsername());
         userRepository.save(userEntity);
     }
 

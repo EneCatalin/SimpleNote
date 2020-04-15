@@ -17,23 +17,14 @@ public class UserEntity implements Serializable {
     private String id;
 
     @NotNull
-    @Column(name="firstName")
-    private String firstName;
-
-    @NotNull
-    @Column(name="lastName")
-    private String lastName;
+    @Column(name="username")
+    private String username;
 
     public UserEntity() {
     }
 
-    public UserEntity(String id) {
-        this.id = id;
-    }
-
-    public UserEntity(@NotNull String firstName, @NotNull String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public UserEntity(@NotNull String username) {
+        this.username = username;
     }
 
     public String getId() {
@@ -44,19 +35,11 @@ public class UserEntity implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

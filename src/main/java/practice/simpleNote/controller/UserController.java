@@ -21,8 +21,6 @@ public class UserController {
         this.usersService = usersService;
     }
 
-    //TODO THROW ResponseStatusException IN SERVICES ?
-
     @GetMapping
     public ResponseEntity<List<UserModel>> getAllUsers() {
         List<UserModel> users = usersService.getAllUsers();
