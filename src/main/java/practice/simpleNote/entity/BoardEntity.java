@@ -64,4 +64,11 @@ public class BoardEntity {
         this.notes.add(notes);
     }
 
+    public Set<UserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<UserEntity> users) {
+        this.users = users;
+    }
 }

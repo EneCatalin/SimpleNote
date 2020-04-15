@@ -32,6 +32,7 @@ public class UserEntity implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "board_id")
     )
+
     private Set<BoardEntity> boards = new HashSet<>();
 
     public UserEntity() {
@@ -55,5 +56,13 @@ public class UserEntity implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Set<BoardEntity> getBoards() {
+        return boards;
+    }
+
+    public void setBoards(Set<BoardEntity> boards) {
+        this.boards = boards;
     }
 }
