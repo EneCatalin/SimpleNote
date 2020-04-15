@@ -1,12 +1,10 @@
 package practice.simpleNote.entity;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "boards")
@@ -21,6 +19,16 @@ public class BoardEntity {
     @NotNull
     @Column(name="title")
     private String title;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "boards")
+    private Set<UserEntity> users = new HashSet<>();
+
+
 
 //    @JsonManagedReference
     @OneToMany(mappedBy = "boardEntity")
@@ -52,8 +60,6 @@ public class BoardEntity {
     }
 
     //TODO look over this. So, again, should i do it like this ? It makes more sense in a way
-    //Then again, notes should have crud done on them. So add/remove/delete/update
-    //is boardEntity even the place to define such operations ??? JpaRepository should handle all of this
     public void addNotes(NoteEntity notes) {
         this.notes.add(notes);
     }

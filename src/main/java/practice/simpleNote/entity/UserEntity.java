@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +21,18 @@ public class UserEntity implements Serializable {
     @NotNull
     @Column(name="username")
     private String username;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "user_board",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "board_id")
+    )
+    private Set<BoardEntity> boards = new HashSet<>();
 
     public UserEntity() {
     }
