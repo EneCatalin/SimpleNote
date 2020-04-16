@@ -1,6 +1,5 @@
 package practice.simpleNote.service;
 
-import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -36,9 +35,14 @@ public class UserActionsService {
     }
 
 
-    private void populateJoinBoard(UserEntity user, BoardEntity board){
+    private void addUserToBoard(UserEntity user, BoardEntity board){
         user.getBoards().add(board);
         board.getUsers().add(user);
+    }
+
+    private void removeUserFromBoard(UserEntity user, BoardEntity board){
+        user.getBoards().remove(board);
+        board.getUsers().remove(user);
     }
 
     //TODO consider a return type ?
@@ -46,20 +50,27 @@ public class UserActionsService {
         UserEntity user = getUserEntity(userId);
         BoardEntity board=getBoardEntity(boardId);
 
-        populateJoinBoard(user,board);
+        addUserToBoard(user,board);
 
         userRepository.save(user);
 
     }
 
+    //TODO consider a return type ?
     public void leaveBoard(String userId,String boardId){
         UserEntity user = getUserEntity(userId);
         BoardEntity board=getBoardEntity(boardId);
 
-        user.getBoards().remove(board);
-        board.getUsers().remove(user);
+        removeUserFromBoard(user,board);
 
         userRepository.save(user);
+    }
+
+    //TODO fix return statement
+    public void createUserBoard(String userId, String boardTitle){
+        BoardEntity board =  boardRepository.save(new BoardEntity(boardTitle));
+
+        joinBoard(userId,board.getId());
     }
 
 }

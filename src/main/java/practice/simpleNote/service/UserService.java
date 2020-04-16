@@ -9,6 +9,7 @@ import practice.simpleNote.entity.UserEntity;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.UserRepository;
 
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +44,8 @@ public class UserService {
         return new UserModel(userEntity.getId(), userEntity.getUsername());
     }
 
-    public UserModel createUser(UserModel userModel) {
+    public UserModel createUser(UserModel userModel)
+    {
         return toModel(userRepository.save(fromModel(userModel)));
     }
 
@@ -51,17 +53,19 @@ public class UserService {
         return new UserEntity(model.getUsername());
     }
 
-    //TODO Break away the getUserEntity part (with the throw error included ofc)
     public UserModel getUserModel(String userId) {
         return toModel(this.getUserEntity(userId));
     }
 
     public HttpStatus deleteUserEntity(String userId) {
+
+        System.out.println("THE USER ID IS "+userId);
         Optional<UserEntity> optionalUsersEntity = userRepository.findById(userId);
 
-        if (optionalUsersEntity.isPresent()) {
+        if (optionalUsersEntity.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "No user with that id to delete");
         }
+
         userRepository.deleteById(userId);
         return HttpStatus.NO_CONTENT; // Is this really the status you want?
 

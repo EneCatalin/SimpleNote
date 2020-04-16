@@ -3,6 +3,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.dto.CreateBoard;
+import practice.simpleNote.dto.BoardAndUserIds;
 import practice.simpleNote.service.UserActionsService;
 
 @RestController
@@ -20,7 +22,7 @@ private final UserActionsService userActionsService;
     //TODO make it so you can't join the same board twice
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/joinBoard")
-    public ResponseEntity<String> joinBoard(@RequestBody UserBoardPojo userBoardpojo) throws Exception {
+    public ResponseEntity<String> joinBoard(@RequestBody BoardAndUserIds userBoardpojo) throws Exception {
         userActionsService.joinBoard(userBoardpojo.userId,userBoardpojo.boardId);
 
         return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
@@ -30,16 +32,21 @@ private final UserActionsService userActionsService;
     //TODO make it so you can't leave a board you are not part of
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/leaveBoard")
-    public ResponseEntity<String> leaveBoard(@RequestBody UserBoardPojo userBoardId) throws Exception {
-        userActionsService.leaveBoard(userBoardId.userId,userBoardId.boardId);
+    public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIds boardAndUserIds) throws Exception {
+        userActionsService.leaveBoard(boardAndUserIds.userId, boardAndUserIds.boardId);
+
+        return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
+    }
+
+    @ExceptionHandler({ResponseStatusException.class})
+    @PostMapping("/createBoard")
+    public ResponseEntity<String> createBoard(@RequestBody CreateBoard createBoardDTO) throws Exception {
+        userActionsService.createUserBoard(createBoardDTO.userId, createBoardDTO.boardTitle);
 
         return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
     }
 
 }
 
-//TODO figure out what to do with this
-class UserBoardPojo{
-    public String userId;
-    public String boardId;
-}
+
+

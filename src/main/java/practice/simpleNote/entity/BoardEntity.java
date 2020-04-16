@@ -34,6 +34,13 @@ public class BoardEntity {
     @OneToMany(mappedBy = "boardEntity")
     private List<NoteEntity> notes;
 
+    public BoardEntity() {
+    }
+
+    public BoardEntity(@NotNull String title) {
+        this.title = title;
+    }
+
     public String getId() {
         return id;
     }
@@ -54,12 +61,10 @@ public class BoardEntity {
         return notes;
     }
 
-    //TODO think about this. Do we really need a setter here or do we need an add ?
     public void setNotes(List<NoteEntity> notes) {
         this.notes = notes;
     }
 
-    //TODO look over this. So, again, should i do it like this ? It makes more sense in a way
     public void addNotes(NoteEntity notes) {
         this.notes.add(notes);
     }
