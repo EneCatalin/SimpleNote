@@ -29,6 +29,18 @@ public class NoteEntity {
     @JoinColumn(name = "board_id_fk", referencedColumnName = "id")
     private BoardEntity boardEntity;
 
+    public NoteEntity() {
+    }
+
+
+    //TODO look into the boardEntity thingy. Is it clear we only take the id here ?
+    public NoteEntity(String id, @NotNull String title, @NotNull String content, String boardEntity) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.boardEntity=new BoardEntity(boardEntity);
+    }
+
     public String getId() {
         return id;
     }
@@ -57,7 +69,7 @@ public class NoteEntity {
         return boardEntity;
     }
 
-    public void setBoardEntity(BoardEntity boardEntity) {
-        this.boardEntity = boardEntity;
+    public void setBoardEntity(String boardEntityId) {
+        this.boardEntity = new BoardEntity(boardEntityId);
     }
 }

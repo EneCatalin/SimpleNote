@@ -9,7 +9,6 @@ import practice.simpleNote.entity.UserEntity;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.UserRepository;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,7 +58,6 @@ public class UserService {
 
     public HttpStatus deleteUserEntity(String userId) {
 
-        System.out.println("THE USER ID IS "+userId);
         Optional<UserEntity> optionalUsersEntity = userRepository.findById(userId);
 
         if (optionalUsersEntity.isEmpty()) {

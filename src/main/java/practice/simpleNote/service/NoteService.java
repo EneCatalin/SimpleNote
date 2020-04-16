@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.customExceptions.NoteNotFoundException;
 import practice.simpleNote.entity.NoteEntity;
-import practice.simpleNote.entity.UserEntity;
-import practice.simpleNote.model.UserModel;
+import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.repository.NoteRepository;
-import practice.simpleNote.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NoteService {
@@ -30,4 +31,56 @@ public class NoteService {
         return noteEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Note Not Found"));
 
     }
+
+    private NoteModel toModel(NoteEntity noteEntity) {
+        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),
+                noteEntity.getBoardEntity().getId());
+    }
+
+    private NoteEntity fromModel(NoteModel model) {
+        return new NoteEntity(model.getId(),model.getTitle(),model.getContent(),model.getBoardId());
+    }
+
+
+    public NoteModel createNote(NoteModel noteModel)
+    {
+        return toModel(noteRepository.save(fromModel(noteModel)));
+    }
+
+
+    public HttpStatus deleteNoteEntity(String noteId) {
+
+        Optional<NoteEntity> optionalNoteEntity = noteRepository.findById(noteId);
+
+        if (optionalNoteEntity.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "No note with that id to delete");
+        }
+
+        noteRepository.deleteById(noteId);
+        return HttpStatus.NO_CONTENT; // Is this really the status you want?
+
+    }
+
+    public List<NoteModel> getAllNotes() {
+
+        return noteRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
+    }
+
+    //TODO update thrown exception from user to note
+    public NoteModel updateNoteModel(NoteModel receivedModel, String noteId) throws NoteNotFoundException {
+        Optional<NoteEntity> noteData = noteRepository.findById(noteId);
+
+        if (noteData.isPresent()) {
+            return toModel(updateEntity(receivedModel));
+        } else {
+            throw new NoteNotFoundException();
+        }
+    }
+
+    //AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
+    private NoteEntity updateEntity(NoteModel receivedModel) {
+       return noteRepository.save(new NoteEntity(receivedModel.getId(), receivedModel.getTitle(),
+                receivedModel.getContent(),receivedModel.getBoardId()));
+    }
+
 }
