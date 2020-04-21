@@ -29,28 +29,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    private UserEntity getUserEntity(String userId) throws ResponseStatusException {
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
-
-        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
-    }
 
     public List<UserModel> getAllUsers() {
 
         return userRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
     }
 
-    private UserModel toModel(UserEntity userEntity) {
-        return new UserModel(userEntity.getId(), userEntity.getUsername());
-    }
 
     public UserModel createUser(UserModel userModel)
     {
         return toModel(userRepository.save(fromModel(userModel)));
-    }
-
-    private UserEntity fromModel(UserModel model) {
-        return new UserEntity(model.getUsername());
     }
 
     public UserModel getUserModel(String userId) {
@@ -81,6 +69,20 @@ public class UserService {
         } else {
             throw new UserNotFoundException();
         }
+    }
+
+    private UserEntity getUserEntity(String userId) throws ResponseStatusException {
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+
+        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
+    }
+
+    private UserModel toModel(UserEntity userEntity) {
+        return new UserModel(userEntity.getId(), userEntity.getUsername());
+    }
+
+    private UserEntity fromModel(UserModel model) {
+        return new UserEntity(model.getUsername());
     }
 
     private void updateEntity(UserModel receivedModel, UserEntity userEntity) {

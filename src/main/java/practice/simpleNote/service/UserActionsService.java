@@ -23,29 +23,6 @@ public class UserActionsService {
         this.boardRepository = boardRepository;
     }
 
-    private UserEntity getUserEntity(String userId) throws ResponseStatusException {
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
-
-        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
-    }
-
-    private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
-        Optional<BoardEntity> boardEntity = boardRepository.findById(boardId);
-
-        return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
-    }
-
-
-    private void addUserToBoard(UserEntity user, BoardEntity board){
-        user.getBoards().add(board);
-        board.getUsers().add(user);
-    }
-
-    private void removeUserFromBoard(UserEntity user, BoardEntity board){
-        user.getBoards().remove(board);
-        board.getUsers().remove(user);
-    }
-
     //TODO consider a return type ?
     public void joinBoard(String userId, String boardId){
         UserEntity user = getUserEntity(userId);
@@ -73,5 +50,30 @@ public class UserActionsService {
 
         joinBoard(userId,board.getId());
     }
+
+    private UserEntity getUserEntity(String userId) throws ResponseStatusException {
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+
+        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
+    }
+
+    private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
+        Optional<BoardEntity> boardEntity = boardRepository.findById(boardId);
+
+        return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
+    }
+
+
+    private void addUserToBoard(UserEntity user, BoardEntity board){
+        user.getBoards().add(board);
+        board.getUsers().add(user);
+    }
+
+    private void removeUserFromBoard(UserEntity user, BoardEntity board){
+        user.getBoards().remove(board);
+        board.getUsers().remove(user);
+    }
+
+
 
 }

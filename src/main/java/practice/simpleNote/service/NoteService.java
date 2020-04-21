@@ -33,16 +33,6 @@ public class NoteService {
 
     }
 
-    private NoteModel toModel(NoteEntity noteEntity) {
-        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),
-                noteEntity.getBoardEntity().getId());
-    }
-
-    private NoteEntity fromModel(NoteModel model) {
-        return new NoteEntity(model.getId(),model.getTitle(),model.getContent(),model.getBoardId());
-    }
-
-
     public NoteModel createNote(NoteModel noteModel)
     {
         return toModel(noteRepository.save(fromModel(noteModel)));
@@ -58,7 +48,7 @@ public class NoteService {
         }
 
         noteRepository.deleteById(noteId);
-        return HttpStatus.NO_CONTENT; 
+        return HttpStatus.NO_CONTENT;
 
     }
 
@@ -77,15 +67,28 @@ public class NoteService {
         }
     }
 
+    public NoteModel getNoteModel(String noteId) {
+        return toModel(this.getNoteEntity(noteId));
+    }
+
+
+    private NoteModel toModel(NoteEntity noteEntity) {
+        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),
+                noteEntity.getBoardEntity().getId());
+    }
+
+    private NoteEntity fromModel(NoteModel model) {
+        return new NoteEntity(model.getId(),model.getTitle(),model.getContent(),model.getBoardId());
+    }
+
+
+
     // AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
     private NoteEntity updateEntity(NoteModel receivedModel) {
        return noteRepository.save(new NoteEntity(receivedModel.getId(), receivedModel.getTitle(),
                 receivedModel.getContent(),receivedModel.getBoardId()));
     }
 
-    public NoteModel getNoteModel(String noteId) {
-        return toModel(this.getNoteEntity(noteId));
-    }
 
 
 }

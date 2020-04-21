@@ -29,16 +29,6 @@ public class BoardService {
         return boardRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
     }
 
-    private BoardModel toModel(BoardEntity boardEntity) {
-        return new BoardModel(boardEntity.getId(),boardEntity.getTitle());
-    }
-
-    private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
-        Optional<BoardEntity> boardEntity = boardRepository.findById(boardId);
-
-        return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
-    }
-
     public BoardModel getBoardModel(String boardId) {
         return toModel(this.getBoardEntity(boardId));
     }
@@ -52,15 +42,6 @@ public class BoardService {
         } else {
             throw new BoardNotFoundException();
         }
-    }
-
-    //AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
-    private BoardEntity updateEntity(BoardModel receivedModel) {
-        return boardRepository.save(new BoardEntity(receivedModel.getId(),receivedModel.getTitle()));
-    }
-
-    private BoardEntity fromModel(BoardModel model) {
-        return new BoardEntity(model.getId(),model.getTitle());
     }
 
     public BoardModel createBoard(BoardModel boardModel)
@@ -80,5 +61,27 @@ public class BoardService {
         return HttpStatus.NO_CONTENT;
 
     }
+
+    private BoardModel toModel(BoardEntity boardEntity) {
+        return new BoardModel(boardEntity.getId(),boardEntity.getTitle());
+    }
+
+    private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
+        Optional<BoardEntity> boardEntity = boardRepository.findById(boardId);
+
+        return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
+    }
+
+
+    //AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
+    private BoardEntity updateEntity(BoardModel receivedModel) {
+        return boardRepository.save(new BoardEntity(receivedModel.getId(),receivedModel.getTitle()));
+    }
+
+    private BoardEntity fromModel(BoardModel model) {
+        return new BoardEntity(model.getId(),model.getTitle());
+    }
+
+
 
 }
