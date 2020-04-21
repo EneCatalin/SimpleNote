@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.customExceptions.NoteNotFoundException;
 import practice.simpleNote.entity.NoteEntity;
 import practice.simpleNote.model.NoteModel;
@@ -28,7 +29,7 @@ public class NoteService {
         Optional<NoteEntity> noteEntity = noteRepository.findById(noteId);
 
 
-        return noteEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Note Not Found"));
+        return noteEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NoteNotFound));
 
     }
 
@@ -53,11 +54,11 @@ public class NoteService {
         Optional<NoteEntity> optionalNoteEntity = noteRepository.findById(noteId);
 
         if (optionalNoteEntity.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "No note with that id to delete");
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constants.NoteNotFound);
         }
 
         noteRepository.deleteById(noteId);
-        return HttpStatus.NO_CONTENT; // Is this really the status you want?
+        return HttpStatus.NO_CONTENT; 
 
     }
 
@@ -66,7 +67,6 @@ public class NoteService {
         return noteRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
     }
 
-    //TODO update thrown exception from user to note
     public NoteModel updateNoteModel(NoteModel receivedModel, String noteId) throws NoteNotFoundException {
         Optional<NoteEntity> noteData = noteRepository.findById(noteId);
 
@@ -77,10 +77,15 @@ public class NoteService {
         }
     }
 
-    //AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
+    // AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
     private NoteEntity updateEntity(NoteModel receivedModel) {
        return noteRepository.save(new NoteEntity(receivedModel.getId(), receivedModel.getTitle(),
                 receivedModel.getContent(),receivedModel.getBoardId()));
     }
+
+    public NoteModel getNoteModel(String noteId) {
+        return toModel(this.getNoteEntity(noteId));
+    }
+
 
 }

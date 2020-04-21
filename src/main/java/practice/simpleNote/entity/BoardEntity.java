@@ -37,6 +37,10 @@ public class BoardEntity {
     public BoardEntity() {
     }
 
+    public BoardEntity(String id, @NotNull String title) {
+        this.id = id;
+        this.title = title;
+    }
 
     public BoardEntity(@NotNull String id) {
         this.id = id;

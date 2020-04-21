@@ -1,10 +1,12 @@
 package practice.simpleNote.model;
 
+import practice.simpleNote.Constants.Constants;
+
 import javax.validation.constraints.NotBlank;
 
 public class UserModel {
     private String id;
-    @NotBlank(message = "Please enter a username for the user!")
+    @NotBlank(message = Constants.blankUserNameModelMessage)
     private String username;
 
     public UserModel(String id, String username) {

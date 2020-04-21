@@ -3,6 +3,7 @@ package practice.simpleNote.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.entity.BoardEntity;
 import practice.simpleNote.entity.UserEntity;
 import practice.simpleNote.repository.BoardRepository;
@@ -25,13 +26,13 @@ public class UserActionsService {
     private UserEntity getUserEntity(String userId) throws ResponseStatusException {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
 
-        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "USER Not Found"));
+        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
     }
 
     private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
         Optional<BoardEntity> boardEntity = boardRepository.findById(boardId);
 
-        return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "BOARD Not Found"));
+        return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
     }
 
 

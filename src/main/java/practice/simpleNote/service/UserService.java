@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.customExceptions.UserNotFoundException;
 import practice.simpleNote.entity.UserEntity;
 import practice.simpleNote.model.UserModel;
@@ -31,7 +32,7 @@ public class UserService {
     private UserEntity getUserEntity(String userId) throws ResponseStatusException {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
 
-        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));
+        return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
     }
 
     public List<UserModel> getAllUsers() {
@@ -61,7 +62,7 @@ public class UserService {
         Optional<UserEntity> optionalUsersEntity = userRepository.findById(userId);
 
         if (optionalUsersEntity.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "No user with that id to delete");
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constants.UserNotFound);
         }
 
         userRepository.deleteById(userId);

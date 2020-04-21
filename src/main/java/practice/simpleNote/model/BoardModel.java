@@ -1,9 +1,5 @@
 package practice.simpleNote.model;
 
-import practice.simpleNote.entity.NoteEntity;
-
-import java.util.List;
-
 public class BoardModel {
 
     private String id;
@@ -11,7 +7,12 @@ public class BoardModel {
     private String title;
 
     //TODO make this a noteModel maybe ?
-    private List<NoteEntity> notes;
+//    private List<NoteEntity> notes;
+
+    public BoardModel(String id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 
     public String getId() {
         return id;
@@ -29,11 +30,4 @@ public class BoardModel {
         this.title = title;
     }
 
-    public List<NoteEntity> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<NoteEntity> notes) {
-        this.notes = notes;
-    }
 }

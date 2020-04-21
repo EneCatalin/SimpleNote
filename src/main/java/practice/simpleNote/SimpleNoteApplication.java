@@ -10,4 +10,6 @@ public class SimpleNoteApplication {
 		SpringApplication.run(SimpleNoteApplication.class, args);
 	}
 
+	//TODO ORDER FUNCTIONS INTO PRIVATE AND PUBLIC (so it's easier to keep track)
+	//TODO think this over, does DELETE throw exceptions ?
 }

@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.customExceptions.NoteNotFoundException;
-import practice.simpleNote.entity.NoteEntity;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.service.NoteService;
 
@@ -24,21 +23,19 @@ public class NoteController {
 
     @GetMapping
     public ResponseEntity<List<NoteModel>> getAllNotes() {
-        List<NoteModel> users = noteService.getAllNotes();
+        List<NoteModel> notes = noteService.getAllNotes();
 
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(notes, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{noteId}")
-    public ResponseEntity<NoteEntity> getNote(@PathVariable String noteId) throws ResponseStatusException {
-        NoteEntity noteEntity = noteService.getNoteEntity(noteId);
+    public ResponseEntity<NoteModel> getNote(@PathVariable String noteId) throws ResponseStatusException {
+        NoteModel noteModel = noteService.getNoteModel(noteId);
 
-        return new ResponseEntity<>(noteEntity, HttpStatus.OK);
+        return new ResponseEntity<>(noteModel, HttpStatus.OK);
 
     }
 
-    //TODO ACTUALLY CREATE THIS METHOD
-    //TODO UPDATE THE THROWN EXCEPTION FROM USER TO NOTE
     @PutMapping("/{id}")
     public ResponseEntity<NoteModel> updateNote(@PathVariable("id") String noteId,
                                                 @RequestBody @Valid NoteModel noteModel) throws NoteNotFoundException {
