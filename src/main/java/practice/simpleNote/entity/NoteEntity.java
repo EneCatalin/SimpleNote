@@ -27,7 +27,7 @@ public class NoteEntity {
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id_fk", referencedColumnName = "id")
-    private BoardEntity boardEntityId;
+    private BoardEntity boardId;
 
     public NoteEntity() {
     }
@@ -35,15 +35,15 @@ public class NoteEntity {
     public NoteEntity(@NotNull String title, @NotNull String content, String boardId) {
         this.title = title;
         this.content = content;
-        this.boardEntityId = new BoardEntity(boardId);
+        this.boardId = new BoardEntity(boardId);
     }
 
     //TODO look into the boardEntity thingy. Is it clear we only take the id here ?
-    public NoteEntity(String id, @NotNull String title, @NotNull String content, String boardEntity) {
+    public NoteEntity(String id, @NotNull String title, @NotNull String content, String boardId) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.boardEntityId=new BoardEntity(boardEntity);
+        this.boardId=new BoardEntity(boardId);
     }
 
     public String getId() {
@@ -71,10 +71,10 @@ public class NoteEntity {
     }
 
     public String getBoardEntity() {
-        return boardEntityId.getId();
+        return boardId.getId();
     }
 
     public void setBoardEntity(String boardEntityId) {
-        this.boardEntityId = new BoardEntity(boardEntityId);
+        this.boardId = new BoardEntity(boardEntityId);
     }
 }

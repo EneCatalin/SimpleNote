@@ -31,7 +31,7 @@ public class BoardEntity {
 
 
 //    @JsonManagedReference
-    @OneToMany(mappedBy = "boardEntityId")
+    @OneToMany(mappedBy = "boardId")
     private List<NoteEntity> notes;
 
     public BoardEntity() {
