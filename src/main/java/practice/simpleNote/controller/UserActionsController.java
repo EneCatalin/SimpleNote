@@ -1,17 +1,18 @@
 package practice.simpleNote.controller;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import practice.simpleNote.dto.CreateBoard;
 import practice.simpleNote.dto.BoardAndUserIds;
+import practice.simpleNote.dto.CreateBoard;
 import practice.simpleNote.service.UserActionsService;
 
 @RestController
 @RequestMapping("/userActions")
 public class UserActionsController {
 
-private final UserActionsService userActionsService;
+    private final UserActionsService userActionsService;
 
     public UserActionsController(UserActionsService userActionsService) {
         this.userActionsService = userActionsService;
@@ -23,7 +24,7 @@ private final UserActionsService userActionsService;
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/joinBoard")
     public ResponseEntity<String> joinBoard(@RequestBody BoardAndUserIds userBoardpojo) throws Exception {
-        userActionsService.joinBoard(userBoardpojo.userId,userBoardpojo.boardId);
+        userActionsService.joinBoard(userBoardpojo.userId, userBoardpojo.boardId);
 
         return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.entity.BoardEntity;
 import practice.simpleNote.entity.UserEntity;
+import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.BoardRepository;
 import practice.simpleNote.repository.UserRepository;
 
@@ -49,6 +50,10 @@ public class UserActionsService {
         BoardEntity board =  boardRepository.save(new BoardEntity(boardTitle));
 
         joinBoard(userId,board.getId());
+    }
+
+    private UserModel toModel(UserEntity userEntity) {
+        return new UserModel(userEntity.getId(), userEntity.getUsername());
     }
 
     private UserEntity getUserEntity(String userId) throws ResponseStatusException {

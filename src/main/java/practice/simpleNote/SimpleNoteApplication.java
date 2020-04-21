@@ -10,6 +10,8 @@ public class SimpleNoteApplication {
 		SpringApplication.run(SimpleNoteApplication.class, args);
 	}
 
-	//TODO ORDER FUNCTIONS INTO PRIVATE AND PUBLIC (so it's easier to keep track)
 	//TODO think this over, does DELETE throw exceptions ?
+
+	//TODO IMPORTANT: SHOULD THE USER BE ABLE TO ADD EMPTY NOTES WITH JUST A TITLE ?
+	//TODO PROBABLY YES, FIND A WAY TO ALLOW THAT TO HAPPEN
 }
