@@ -1,5 +1,6 @@
 package practice.simpleNote.entity;
 
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class NoteEntity {
         this.board = new BoardEntity(boardId);
     }
 
+    //TODO look into the boardEntity thingy. Is it clear we only take the id here ?
     public NoteEntity(String id, @NotNull String title, @NotNull String content, String boardId) {
         this.id = id;
         this.title = title;
