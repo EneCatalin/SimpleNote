@@ -1,9 +1,9 @@
 package practice.simpleNote.entity;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,8 +31,9 @@ public class BoardEntity {
 
 
 //    @JsonManagedReference
-    @OneToMany(mappedBy = "boardId")
-    private List<NoteEntity> notes;
+    //TODO CHECK THIS OUT AND VLADS POST MAYBE THIS WILL WORK ?
+//    @OneToMany(mappedBy = "boardId")
+//    private List<NoteEntity> notes;
 
     public BoardEntity() {
     }
@@ -62,17 +63,17 @@ public class BoardEntity {
         this.title = title;
     }
 
-    public List<NoteEntity> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<NoteEntity> notes) {
-        this.notes = notes;
-    }
-
-    public void addNotes(NoteEntity notes) {
-        this.notes.add(notes);
-    }
+//    public List<NoteEntity> getNotes() {
+//        return notes;
+//    }
+//
+//    public void setNotes(List<NoteEntity> notes) {
+//        this.notes = notes;
+//    }
+//
+//    public void addNotes(NoteEntity notes) {
+//        this.notes.add(notes);
+//    }
 
     public Set<UserEntity> getUsers() {
         return users;

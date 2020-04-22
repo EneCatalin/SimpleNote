@@ -39,11 +39,13 @@ public class BoardActionsService {
 
 
     private NoteModel noteEntityToModel(NoteEntity noteEntity) {
-        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(),noteEntity.getContent(),noteEntity.getBoardEntity());
+        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(),noteEntity.getContent(),noteEntity.getBoardId());
     }
 
     private NoteEntity createNote(String noteTitle, String noteContent, String boardId){
-        return noteRepository.save(new NoteEntity(noteTitle,noteContent, boardId));
+        //TODO fix this shit
+        BoardEntity localBoard = new BoardEntity(boardId);
+        return noteRepository.save(new NoteEntity(noteTitle,noteContent, localBoard));
     }
 
     private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {

@@ -1,6 +1,5 @@
 package practice.simpleNote.entity;
 
-import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -23,19 +22,17 @@ public class NoteEntity {
     @Column(name = "content")
     private String content;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id_fk", referencedColumnName = "id")
-    private BoardEntity boardId;
+    private BoardEntity board;
 
     public NoteEntity() {
     }
 
-    public NoteEntity(@NotNull String title, @NotNull String content, String boardId) {
+    public NoteEntity(@NotNull String title, @NotNull String content, BoardEntity board) {
         this.title = title;
         this.content = content;
-        this.boardId = new BoardEntity(boardId);
+        this.board = board;
     }
 
     //TODO look into the boardEntity thingy. Is it clear we only take the id here ?
@@ -43,7 +40,7 @@ public class NoteEntity {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.boardId=new BoardEntity(boardId);
+        this.board= new BoardEntity(boardId);
     }
 
     public String getId() {
@@ -70,11 +67,11 @@ public class NoteEntity {
         this.content = content;
     }
 
-    public String getBoardEntity() {
-        return boardId.getId();
+    public String getBoardId() {
+        return board.getId();
     }
 
     public void setBoardEntity(String boardEntityId) {
-        this.boardId = new BoardEntity(boardEntityId);
+        this.board = new BoardEntity(boardEntityId);
     }
 }
