@@ -1,17 +1,19 @@
 package practice.simpleNote.model;
 
+import java.util.Set;
+
 public class BoardModel {
 
     private String id;
 
     private String title;
 
-    //TODO make this a noteModel maybe ?
-//    private List<NoteEntity> notes;
+    private Set<NoteModel> notes;
 
-    public BoardModel(String id, String title) {
+    public BoardModel(String id, String title, Set<NoteModel> notes) {
         this.id = id;
         this.title = title;
+        this.notes = notes;
     }
 
     public String getId() {
@@ -28,6 +30,14 @@ public class BoardModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Set<NoteModel> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(Set<NoteModel> notes) {
+        this.notes = notes;
     }
 
 }

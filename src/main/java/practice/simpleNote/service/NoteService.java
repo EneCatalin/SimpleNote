@@ -78,7 +78,7 @@ public class NoteService {
     }
 
     private NoteEntity fromModel(NoteModel model) {
-        return new NoteEntity(model.getId(),model.getTitle(),model.getContent(),model.getBoardId());
+        return new NoteEntity(model.getId(),model.getTitle(),model.getContent());
     }
 
 
@@ -86,7 +86,7 @@ public class NoteService {
     // AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
     private NoteEntity updateEntity(NoteModel receivedModel) {
        return noteRepository.save(new NoteEntity(receivedModel.getId(), receivedModel.getTitle(),
-                receivedModel.getContent(),receivedModel.getBoardId()));
+                receivedModel.getContent()));
     }
 
 

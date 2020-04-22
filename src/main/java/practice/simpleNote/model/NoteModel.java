@@ -5,13 +5,17 @@ public class NoteModel {
     String id;
     String title;
     String content;
-    String boardId;
+
+    public NoteModel(String id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
 
     public NoteModel(String id, String title, String content, String boardId) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.boardId = boardId;
     }
 
     public String getId() {
@@ -26,9 +30,6 @@ public class NoteModel {
         return content;
     }
 
-    public String getBoardId() {
-        return boardId;
-    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -38,13 +39,4 @@ public class NoteModel {
         this.content = content;
     }
 
-    @Override
-    public String toString() {
-        return "NoteModel{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", boardId='" + boardId + '\'' +
-                '}';
-    }
 }

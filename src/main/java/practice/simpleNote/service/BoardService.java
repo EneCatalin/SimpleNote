@@ -5,65 +5,59 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
-import practice.simpleNote.customExceptions.BoardNotFoundException;
 import practice.simpleNote.entity.BoardEntity;
+import practice.simpleNote.entity.NoteEntity;
 import practice.simpleNote.model.BoardModel;
+import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.repository.BoardRepository;
+import practice.simpleNote.repository.NoteRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final NoteRepository noteRepository;
 
     @Autowired
-    public BoardService(BoardRepository boardRepository) {
+    public BoardService(BoardRepository boardRepository, NoteRepository noteRepository) {
         this.boardRepository = boardRepository;
+        this.noteRepository = noteRepository;
     }
 
-    public List<BoardModel> getAllBoards() {
-
-        return boardRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
+    public List<BoardModel> getAllBoards(){
+        return boardRepository.findAll().stream().map(this::boardEntityToModel).collect(Collectors.toList());
     }
 
     public BoardModel getBoardModel(String boardId) {
-        return toModel(this.getBoardEntity(boardId));
+        //get board entity
+        BoardEntity board = this.getBoardEntity(boardId);
+
+        return boardEntityToModel(board);
     }
 
+    private BoardModel boardEntityToModel(BoardEntity board){
+        //get associated notes
+        Set<NoteEntity> noteEntities = noteRepository.findByboard(new BoardEntity(board.getId()));
 
-    public BoardModel updateBoardModel(BoardModel receivedModel, String boardId) throws BoardNotFoundException {
-        Optional<BoardEntity> boardData = boardRepository.findById(boardId);
+        //Convert the notes to noteModels
+        Set<NoteModel> noteModels = noteEntitiesToModels(noteEntities);
 
-        if (boardData.isPresent()) {
-            return toModel(updateEntity(receivedModel));
-        } else {
-            throw new BoardNotFoundException();
-        }
+        return new BoardModel(board.getId(),board.getTitle(),noteModels);
     }
 
-    public BoardModel createBoard(BoardModel boardModel)
-    {
-        return toModel(boardRepository.save(fromModel(boardModel)));
-    }
-
-    public HttpStatus deleteBoardEntity(String boardId) {
-
-        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(boardId);
-
-        if (optionalBoardEntity.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constants.BoardNotFound);
+    private Set<NoteModel> noteEntitiesToModels(Set<NoteEntity> noteEntities) {
+        Set<NoteModel> noteModels = new HashSet<>();
+        for (NoteEntity entity : noteEntities) {
+            noteModels.add(new NoteModel(entity.getId(),entity.getTitle(),entity.getContent()));
         }
 
-        boardRepository.deleteById(boardId);
-        return HttpStatus.NO_CONTENT;
-
-    }
-
-    private BoardModel toModel(BoardEntity boardEntity) {
-        return new BoardModel(boardEntity.getId(),boardEntity.getTitle());
+        return noteModels;
     }
 
     private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
@@ -71,17 +65,6 @@ public class BoardService {
 
         return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
     }
-
-
-    //AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
-    private BoardEntity updateEntity(BoardModel receivedModel) {
-        return boardRepository.save(new BoardEntity(receivedModel.getId(),receivedModel.getTitle()));
-    }
-
-    private BoardEntity fromModel(BoardModel model) {
-        return new BoardEntity(model.getId(),model.getTitle());
-    }
-
 
 
 }
