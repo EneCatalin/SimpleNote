@@ -71,7 +71,7 @@ public class NoteEntity {
         return board.getId();
     }
 
-    public void setBoardEntity(String boardEntityId) {
+    public void setBoard(String boardEntityId) {
         this.board = new BoardEntity(boardEntityId);
     }
 }
