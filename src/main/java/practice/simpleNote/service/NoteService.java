@@ -74,7 +74,7 @@ public class NoteService {
 
     private NoteModel toModel(NoteEntity noteEntity) {
         return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),
-                noteEntity.getBoardEntity());
+                noteEntity.getBoardId());
     }
 
     private NoteEntity fromModel(NoteModel model) {

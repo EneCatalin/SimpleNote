@@ -1,9 +1,9 @@
 package practice.simpleNote.entity;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,12 +27,6 @@ public class BoardEntity {
             },
             mappedBy = "boards")
     private Set<UserEntity> users = new HashSet<>();
-
-
-
-//    @JsonManagedReference
-    @OneToMany(mappedBy = "boardId")
-    private List<NoteEntity> notes;
 
     public BoardEntity() {
     }
@@ -60,18 +54,6 @@ public class BoardEntity {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public List<NoteEntity> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<NoteEntity> notes) {
-        this.notes = notes;
-    }
-
-    public void addNotes(NoteEntity notes) {
-        this.notes.add(notes);
     }
 
     public Set<UserEntity> getUsers() {
