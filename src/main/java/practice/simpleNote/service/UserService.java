@@ -54,7 +54,7 @@ public class UserService {
         }
 
         userRepository.deleteById(userId);
-        return HttpStatus.NO_CONTENT; // Is this really the status you want?
+        return HttpStatus.NO_CONTENT;
 
     }
 

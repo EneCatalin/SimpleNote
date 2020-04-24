@@ -1,4 +1,5 @@
 package practice.simpleNote.entity;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class BoardEntity {
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    CascadeType.MERGE,
             },
             mappedBy = "boards")
     private Set<UserEntity> users = new HashSet<>();

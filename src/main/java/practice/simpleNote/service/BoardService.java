@@ -12,10 +12,7 @@ import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.repository.BoardRepository;
 import practice.simpleNote.repository.NoteRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +25,26 @@ public class BoardService {
     public BoardService(BoardRepository boardRepository, NoteRepository noteRepository) {
         this.boardRepository = boardRepository;
         this.noteRepository = noteRepository;
+    }
+
+    public HttpStatus deleteBoardEntity(String boardId) {
+
+        //WE CAN'T WE getBoardEntity because we need to return a custom http code for this operation
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(boardId);
+
+        if (optionalBoardEntity.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constants.NoteNotFound);
+        }
+
+        //TODO remove notes by boardId
+        Set<NoteEntity>notes = noteRepository.findByboard(optionalBoardEntity.get());
+        for (NoteEntity noteEntity : notes) {
+            noteRepository.deleteById(noteEntity.getId());
+        }
+
+        boardRepository.deleteById(boardId);
+        return HttpStatus.NO_CONTENT;
+
     }
 
     public List<BoardModel> getAllBoards(){
