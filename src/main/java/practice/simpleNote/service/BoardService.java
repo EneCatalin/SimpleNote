@@ -30,21 +30,24 @@ public class BoardService {
     public HttpStatus deleteBoardEntity(String boardId) {
 
         //WE CAN'T WE getBoardEntity because we need to return a custom http code for this operation
-        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(boardId);
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
 
-        if (optionalBoardEntity.isEmpty()) {
+        if (board.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, Constants.NoteNotFound);
         }
 
-        //TODO remove notes by boardId
-        Set<NoteEntity>notes = noteRepository.findByboard(optionalBoardEntity.get());
-        for (NoteEntity noteEntity : notes) {
-            noteRepository.deleteById(noteEntity.getId());
-        }
+        deleteNotesByBoard(board.get());
 
         boardRepository.deleteById(boardId);
         return HttpStatus.NO_CONTENT;
 
+    }
+
+    private void deleteNotesByBoard(BoardEntity board) {
+        Set<NoteEntity> notes = noteRepository.findByboard(board);
+        for (NoteEntity noteEntity : notes) {
+            noteRepository.deleteById(noteEntity.getId());
+        }
     }
 
     public List<BoardModel> getAllBoards(){
