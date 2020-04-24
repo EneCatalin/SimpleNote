@@ -12,7 +12,10 @@ import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.repository.BoardRepository;
 import practice.simpleNote.repository.NoteRepository;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,6 +55,13 @@ public class BoardService {
 
     public List<BoardModel> getAllBoards(){
         return boardRepository.findAll().stream().map(this::boardEntityToModel).collect(Collectors.toList());
+    }
+
+    public List<BoardModel> filterBoardsByUserId(String userId){
+
+        List<BoardEntity> boards =  boardRepository.findByUsersId(userId);
+
+        return boards.stream().map(this::boardEntityToModel).collect(Collectors.toList());
     }
 
     public BoardModel getBoardModel(String boardId) {

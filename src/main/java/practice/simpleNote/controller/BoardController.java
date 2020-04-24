@@ -20,14 +20,23 @@ public class BoardController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<BoardModel>> getAllBoards() throws ResponseStatusException{
+    public ResponseEntity<List<BoardModel>> getAllBoards() throws ResponseStatusException {
         List<BoardModel> boardModel = boardService.getAllBoards();
 
         return new ResponseEntity<>(boardModel, HttpStatus.OK);
     }
 
+    @GetMapping()
+    public ResponseEntity<List<BoardModel>> filterBoardsByUser(@RequestParam(name = "userId") String userId) throws ResponseStatusException {
+
+        List<BoardModel> boardModels = boardService.filterBoardsByUserId(userId);
+
+        return new ResponseEntity<>(boardModels, HttpStatus.OK);
+
+    }
+
     @GetMapping(path = "/{boardId}")
-    public ResponseEntity<BoardModel> getBoard(@PathVariable String boardId) throws ResponseStatusException{
+    public ResponseEntity<BoardModel> getBoard(@PathVariable String boardId) throws ResponseStatusException {
         BoardModel boardModel = boardService.getBoardModel(boardId);
 
         return new ResponseEntity<>(boardModel, HttpStatus.OK);
@@ -38,10 +47,8 @@ public class BoardController {
         return new ResponseEntity<>(boardService.deleteBoardEntity(id));
     }
 
-    //TODO LIST ALL BOARDS A USER IS A MEMBER OF
 
     //TODO should I also make a create route here ?
-
 
 
 //    @PutMapping("/{id}")
