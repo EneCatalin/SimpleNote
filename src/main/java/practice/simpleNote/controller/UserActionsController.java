@@ -18,7 +18,6 @@ public class UserActionsController {
         this.userActionsService = userActionsService;
     }
 
-
     //TODO fix the return statement
     //TODO make it so you can't join the same board twice
     @ExceptionHandler({ResponseStatusException.class})

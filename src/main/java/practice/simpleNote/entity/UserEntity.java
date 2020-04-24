@@ -65,4 +65,15 @@ public class UserEntity implements Serializable {
     public void setBoards(Set<BoardEntity> boards) {
         this.boards = boards;
     }
+
+    public void addBoard(BoardEntity board){
+        this.boards.add(board);
+        board.getUsers().add(this);
+    }
+
+    public void removeBoard(BoardEntity board){
+        this.boards.remove(board);
+        board.getUsers().remove(this);
+    }
+
 }

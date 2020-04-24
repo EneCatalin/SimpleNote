@@ -38,6 +38,10 @@ public class BoardController {
         return new ResponseEntity<>(boardService.deleteBoardEntity(id));
     }
 
+    //TODO LIST ALL BOARDS A USER IS A MEMBER OF
+
+    //TODO should I also make a create route here ?
+
 
 
 //    @PutMapping("/{id}")

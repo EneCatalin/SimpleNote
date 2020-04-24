@@ -63,7 +63,7 @@ public class BoardService {
 
     private BoardModel boardEntityToModel(BoardEntity board){
         //get associated notes
-        Set<NoteEntity> noteEntities = noteRepository.findByboard(new BoardEntity(board.getId()));
+        Set<NoteEntity> noteEntities = noteRepository.findByboard(board);
 
         //Convert the notes to noteModels
         Set<NoteModel> noteModels = noteEntitiesToModels(noteEntities);

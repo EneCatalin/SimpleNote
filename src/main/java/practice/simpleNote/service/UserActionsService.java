@@ -24,32 +24,35 @@ public class UserActionsService {
         this.boardRepository = boardRepository;
     }
 
-    //TODO consider a return type ?
-    public void joinBoard(String userId, String boardId){
-        UserEntity user = getUserEntity(userId);
-        BoardEntity board=getBoardEntity(boardId);
 
-        addUserToBoard(user,board);
-
-        userRepository.save(user);
-
-    }
 
     //TODO consider a return type ?
     public void leaveBoard(String userId,String boardId){
+        System.out.println("IF WE ARE HERE THIS IS SUPER FUCKED");
         UserEntity user = getUserEntity(userId);
         BoardEntity board=getBoardEntity(boardId);
 
-        removeUserFromBoard(user,board);
+        user.removeBoard(board);
 
         userRepository.save(user);
     }
 
     //TODO fix return statement
-    public void createUserBoard(String userId, String boardTitle){
+    public void createUserBoard(String userId, String boardTitle) {
         BoardEntity board =  boardRepository.save(new BoardEntity(boardTitle));
 
         joinBoard(userId,board.getId());
+    }
+
+    //TODO consider a return type ?
+    public void joinBoard(String userId, String boardId){
+        UserEntity user = getUserEntity(userId);
+        BoardEntity board=getBoardEntity(boardId);
+
+        user.addBoard(board);
+
+        userRepository.save(user);
+
     }
 
     private UserModel toModel(UserEntity userEntity) {
@@ -69,15 +72,15 @@ public class UserActionsService {
     }
 
 
-    private void addUserToBoard(UserEntity user, BoardEntity board){
-        user.getBoards().add(board);
-        board.getUsers().add(user);
-    }
-
-    private void removeUserFromBoard(UserEntity user, BoardEntity board){
-        user.getBoards().remove(board);
-        board.getUsers().remove(user);
-    }
+//    private void addUserToBoard(UserEntity user, BoardEntity board){
+//        user.getBoards().add(board);
+//        board.getUsers().add(user);
+//    }
+//
+//    private void removeUserFromBoard(UserEntity user, BoardEntity board){
+//        user.getBoards().remove(board);
+//        board.getUsers().remove(user);
+//    }
 
 
 

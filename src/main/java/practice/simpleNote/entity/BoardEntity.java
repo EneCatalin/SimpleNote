@@ -37,8 +37,8 @@ public class BoardEntity {
         this.title = title;
     }
 
-    public BoardEntity(@NotNull String id) {
-        this.id = id;
+    public BoardEntity(@NotNull String title) {
+        this.title = title;
     }
 
     public String getId() {
@@ -63,5 +63,14 @@ public class BoardEntity {
 
     public void setUsers(Set<UserEntity> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardEntity{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", users=" + users +
+                '}';
     }
 }
