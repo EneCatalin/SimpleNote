@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.customExceptions.NoteNotFoundException;
+import practice.simpleNote.dto.NoteDTO;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.service.NoteService;
 
@@ -38,13 +39,15 @@ public class NoteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<NoteModel> updateNote(@PathVariable("id") String noteId,
-                                                @RequestBody @Valid NoteModel noteModel) throws NoteNotFoundException {
-        System.out.println("WHAT THE ACTUAL FUCK");
-        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteModel),HttpStatus.OK);
+                                                @RequestBody @Valid NoteDTO noteDto) throws NoteNotFoundException {
+
+        System.out.println("THE ROUTE IS HIT");
+        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteDto),HttpStatus.OK);
     }
 
     @PostMapping("/createNote")
-    public ResponseEntity<NoteModel> createNote(@RequestBody @Valid NoteModel note) throws ResponseStatusException {
+    public ResponseEntity<NoteModel> createNote(@RequestBody @Valid NoteDTO note) throws ResponseStatusException {
+        System.out.println(note.toString());
         return new ResponseEntity<>(noteService.createNote(note), HttpStatus.OK);
 
     }

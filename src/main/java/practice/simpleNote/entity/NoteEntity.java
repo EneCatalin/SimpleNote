@@ -23,7 +23,8 @@ public class NoteEntity {
     private String content;
 
     // WE ONLY NEED THE BOARD ID HERE
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade =
+            {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "board_id_fk", referencedColumnName = "id")
     private BoardEntity board;
 

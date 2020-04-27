@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.customExceptions.NoteNotFoundException;
+import practice.simpleNote.dto.NoteDTO;
 import practice.simpleNote.entity.NoteEntity;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.repository.NoteRepository;
@@ -33,9 +34,9 @@ public class NoteService {
 
     }
 
-    public NoteModel createNote(NoteModel noteModel)
+    public NoteModel createNote(NoteDTO noteDTO)
     {
-        return toModel(noteRepository.save(fromModel(noteModel)));
+        return toModel(noteRepository.save(fromDTO(noteDTO)));
     }
 
 
@@ -57,14 +58,11 @@ public class NoteService {
         return noteRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
     }
 
-    public NoteModel updateNoteModel(String noteId,NoteModel receivedModel) throws NoteNotFoundException {
-        System.out.println("BEFORE OPTIONAL");
+    public NoteModel updateNoteModel(String noteId, NoteDTO noteDto) throws NoteNotFoundException {
         Optional<NoteEntity> noteData = noteRepository.findById(noteId);
-        System.out.println("AFTER OPTIONAL");
 
         if (noteData.isPresent()) {
-            System.out.println("IN IS PRESENT");
-            return toModel(updateEntity(receivedModel));
+            return toModel(updateEntity(noteDto));
         } else {
             throw new NoteNotFoundException();
         }
@@ -76,20 +74,21 @@ public class NoteService {
 
 
     private NoteModel toModel(NoteEntity noteEntity) {
-        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),
-                noteEntity.getBoardId());
+        System.out.println(noteEntity.toString());
+        return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),noteEntity.getBoardId());
     }
 
-    private NoteEntity fromModel(NoteModel model) {
-        return new NoteEntity(model.getId(),model.getTitle(),model.getContent());
+    private NoteEntity fromDTO(NoteDTO noteDTO) {
+        return new NoteEntity(noteDTO.title,noteDTO.content,noteDTO.boardId);
     }
 
 
 
     // AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
-    private NoteEntity updateEntity(NoteModel receivedModel) {
-       return noteRepository.save(new NoteEntity(receivedModel.getId(), receivedModel.getTitle(),
-                receivedModel.getContent()));
+    private NoteEntity updateEntity(NoteDTO noteDTO) {
+        System.out.println(noteDTO.toString());
+       return noteRepository.save(new NoteEntity(noteDTO.id,noteDTO.title, noteDTO.content,
+                noteDTO.boardId));
     }
 
 
