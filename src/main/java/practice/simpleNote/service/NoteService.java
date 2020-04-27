@@ -36,7 +36,7 @@ public class NoteService {
 
     public NoteModel createNote(NoteDTO noteDTO)
     {
-        return toModel(noteRepository.save(fromDTO(noteDTO)));
+        return entityToModel(noteRepository.save(entityFromDTO(noteDTO)));
     }
 
 
@@ -55,30 +55,29 @@ public class NoteService {
 
     public List<NoteModel> getAllNotes() {
 
-        return noteRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
+        return noteRepository.findAll().stream().map(this::entityToModel).collect(Collectors.toList());
     }
 
     public NoteModel updateNoteModel(String noteId, NoteDTO noteDto) throws NoteNotFoundException {
         Optional<NoteEntity> noteData = noteRepository.findById(noteId);
 
         if (noteData.isPresent()) {
-            return toModel(updateEntity(noteDto));
+            return entityToModel(updateEntity(noteDto));
         } else {
             throw new NoteNotFoundException();
         }
     }
 
     public NoteModel getNoteModel(String noteId) {
-        return toModel(this.getNoteEntity(noteId));
+        return entityToModel(this.getNoteEntity(noteId));
     }
 
 
-    private NoteModel toModel(NoteEntity noteEntity) {
-        System.out.println(noteEntity.toString());
+    private NoteModel entityToModel(NoteEntity noteEntity) {
         return new NoteModel(noteEntity.getId(), noteEntity.getTitle(), noteEntity.getContent(),noteEntity.getBoardId());
     }
 
-    private NoteEntity fromDTO(NoteDTO noteDTO) {
+    private NoteEntity entityFromDTO(NoteDTO noteDTO) {
         return new NoteEntity(noteDTO.title,noteDTO.content,noteDTO.boardId);
     }
 
@@ -86,7 +85,6 @@ public class NoteService {
 
     // AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
     private NoteEntity updateEntity(NoteDTO noteDTO) {
-        System.out.println(noteDTO.toString());
        return noteRepository.save(new NoteEntity(noteDTO.id,noteDTO.title, noteDTO.content,
                 noteDTO.boardId));
     }

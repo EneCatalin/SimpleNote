@@ -28,7 +28,6 @@ public class UserActionsService {
 
     //TODO consider a return type ?
     public void leaveBoard(String userId,String boardId){
-        System.out.println("IF WE ARE HERE THIS IS SUPER FUCKED");
         UserEntity user = getUserEntity(userId);
         BoardEntity board=getBoardEntity(boardId);
 

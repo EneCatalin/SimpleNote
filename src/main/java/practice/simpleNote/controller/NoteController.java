@@ -41,13 +41,11 @@ public class NoteController {
     public ResponseEntity<NoteModel> updateNote(@PathVariable("id") String noteId,
                                                 @RequestBody @Valid NoteDTO noteDto) throws NoteNotFoundException {
 
-        System.out.println("THE ROUTE IS HIT");
         return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteDto),HttpStatus.OK);
     }
 
     @PostMapping("/createNote")
     public ResponseEntity<NoteModel> createNote(@RequestBody @Valid NoteDTO note) throws ResponseStatusException {
-        System.out.println(note.toString());
         return new ResponseEntity<>(noteService.createNote(note), HttpStatus.OK);
 
     }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.customExceptions.NoteNotFoundException;
 import practice.simpleNote.dto.NoteDTO;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.service.BoardActionsService;
@@ -34,12 +35,11 @@ public class BoardActionsController {
     }
 
 //    //TODO MAKE THIS FUNCTION RETURN A NOTEMODEL
-//    @PostMapping("/editNote/{noteId}")
-//    public ResponseEntity<NoteModel> editNote(@PathVariable("noteId") String noteId,@RequestBody NoteModel noteModel) throws NoteNotFoundException {
-//        System.out.println("IN CONTROLLER");
-//        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteModel),HttpStatus.OK);
-//
-//    }
+    @PostMapping("/editNote/{noteId}")
+    public ResponseEntity<NoteModel> editNote(@PathVariable("noteId") String noteId,@RequestBody NoteDTO noteDTO) throws NoteNotFoundException {
+        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteDTO),HttpStatus.OK);
+
+    }
 
     //TODO write this function
     @ExceptionHandler({ResponseStatusException.class})
