@@ -26,9 +26,8 @@ public class BoardController {
         return new ResponseEntity<>(boardModel, HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping(params="userId")
     public ResponseEntity<List<BoardModel>> filterBoardsByUser(@RequestParam(name = "userId") String userId) throws ResponseStatusException {
-
         List<BoardModel> boardModels = boardService.filterBoardsByUserId(userId);
 
         return new ResponseEntity<>(boardModels, HttpStatus.OK);
@@ -37,6 +36,7 @@ public class BoardController {
 
     @GetMapping(path = "/{boardId}")
     public ResponseEntity<BoardModel> getBoard(@PathVariable String boardId) throws ResponseStatusException {
+
         BoardModel boardModel = boardService.getBoardModel(boardId);
 
         return new ResponseEntity<>(boardModel, HttpStatus.OK);

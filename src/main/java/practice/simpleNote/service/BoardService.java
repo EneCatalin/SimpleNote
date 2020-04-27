@@ -53,13 +53,12 @@ public class BoardService {
         }
     }
 
-    public List<BoardModel> getAllBoards(){
+    public List<BoardModel> getAllBoards() {
         return boardRepository.findAll().stream().map(this::boardEntityToModel).collect(Collectors.toList());
     }
 
-    public List<BoardModel> filterBoardsByUserId(String userId){
-
-        List<BoardEntity> boards =  boardRepository.findByUsersId(userId);
+    public List<BoardModel> filterBoardsByUserId(String userId) {
+        List<BoardEntity> boards = boardRepository.findByUsersId(userId);
 
         return boards.stream().map(this::boardEntityToModel).collect(Collectors.toList());
     }
@@ -71,20 +70,20 @@ public class BoardService {
         return boardEntityToModel(board);
     }
 
-    private BoardModel boardEntityToModel(BoardEntity board){
+    private BoardModel boardEntityToModel(BoardEntity board) {
         //get associated notes
         Set<NoteEntity> noteEntities = noteRepository.findByboard(board);
 
         //Convert the notes to noteModels
         Set<NoteModel> noteModels = noteEntitiesToModels(noteEntities);
 
-        return new BoardModel(board.getId(),board.getTitle(),noteModels);
+        return new BoardModel(board.getId(), board.getTitle(), noteModels);
     }
 
     private Set<NoteModel> noteEntitiesToModels(Set<NoteEntity> noteEntities) {
         Set<NoteModel> noteModels = new HashSet<>();
         for (NoteEntity entity : noteEntities) {
-            noteModels.add(new NoteModel(entity.getId(),entity.getTitle(),entity.getContent()));
+            noteModels.add(new NoteModel(entity.getId(), entity.getTitle(), entity.getContent()));
         }
 
         return noteModels;
