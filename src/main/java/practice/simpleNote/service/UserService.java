@@ -71,6 +71,12 @@ public class UserService {
         }
     }
 
+    public List<UserModel> filterUsersByBoard(String boardId) {
+        List<UserEntity> boards = userRepository.findByBoardsId(boardId);
+
+        return boards.stream().map(this::toModel).collect(Collectors.toList());
+    }
+
     private UserEntity getUserEntity(String userId) throws ResponseStatusException {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
 

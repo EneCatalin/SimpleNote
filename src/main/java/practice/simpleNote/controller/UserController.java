@@ -28,6 +28,14 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping(params="boardId")
+    public ResponseEntity<List<UserModel>> filterUsersByBoard(@RequestParam(name = "boardId") String boardId) throws ResponseStatusException {
+        List<UserModel> userModels = usersService.filterUsersByBoard(boardId);
+
+        return new ResponseEntity<>(userModels, HttpStatus.OK);
+
+    }
+
     @GetMapping(path = "/{userId}")
     public ResponseEntity<UserModel> getUser(@PathVariable String userId) throws ResponseStatusException {
         UserModel userModel = usersService.getUserModel(userId);
