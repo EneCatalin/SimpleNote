@@ -4,9 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import practice.simpleNote.customExceptions.NoteNotFoundException;
 import practice.simpleNote.dto.NoteDTO;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.service.BoardActionsService;
+import practice.simpleNote.service.NoteService;
 
 @RestController
 @RequestMapping("/boardActions")
@@ -14,9 +16,12 @@ public class BoardActionsController {
 
 
     private final BoardActionsService boardActionsService;
+    private final NoteService noteService;
 
-    public BoardActionsController(BoardActionsService boardActionsService) {
+
+    public BoardActionsController(BoardActionsService boardActionsService, NoteService noteService) {
         this.boardActionsService = boardActionsService;
+        this.noteService = noteService;
     }
 
     @ExceptionHandler({ResponseStatusException.class})
@@ -29,12 +34,11 @@ public class BoardActionsController {
     }
 
     //TODO MAKE THIS FUNCTION RETURN A NOTEMODEL
-    @ExceptionHandler({ResponseStatusException.class})
-    @PostMapping("/editNote")
-    public ResponseEntity<String> editNote(@RequestBody NoteDTO noteDTO) throws Exception {
-        boardActionsService.editNote(noteDTO.boardId,noteDTO.noteId, noteDTO.noteContent);
+    @PostMapping("/editNote/{noteId}")
+    public ResponseEntity<NoteModel> editNote(@PathVariable("noteId") String noteId,@RequestBody NoteModel noteModel) throws NoteNotFoundException {
+        System.out.println("IN CONTROLLER");
+        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteModel),HttpStatus.OK);
 
-        return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
     }
 
     //TODO write this function

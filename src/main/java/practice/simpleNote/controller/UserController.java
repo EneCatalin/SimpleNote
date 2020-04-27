@@ -33,7 +33,6 @@ public class UserController {
         List<UserModel> userModels = usersService.filterUsersByBoard(boardId);
 
         return new ResponseEntity<>(userModels, HttpStatus.OK);
-
     }
 
     @GetMapping(path = "/{userId}")

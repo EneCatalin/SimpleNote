@@ -39,7 +39,8 @@ public class NoteController {
     @PutMapping("/{id}")
     public ResponseEntity<NoteModel> updateNote(@PathVariable("id") String noteId,
                                                 @RequestBody @Valid NoteModel noteModel) throws NoteNotFoundException {
-        return new ResponseEntity<NoteModel>(noteService.updateNoteModel(noteModel,noteId),HttpStatus.OK);
+        System.out.println("WHAT THE ACTUAL FUCK");
+        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteModel),HttpStatus.OK);
     }
 
     @PostMapping("/createNote")

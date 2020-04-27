@@ -24,7 +24,7 @@ public class NoteService {
         this.noteRepository = noteRepository;
     }
 
-    public NoteEntity getNoteEntity(String noteId) {
+    private NoteEntity getNoteEntity(String noteId) {
 
         Optional<NoteEntity> noteEntity = noteRepository.findById(noteId);
 
@@ -57,10 +57,13 @@ public class NoteService {
         return noteRepository.findAll().stream().map(this::toModel).collect(Collectors.toList());
     }
 
-    public NoteModel updateNoteModel(NoteModel receivedModel, String noteId) throws NoteNotFoundException {
+    public NoteModel updateNoteModel(String noteId,NoteModel receivedModel) throws NoteNotFoundException {
+        System.out.println("BEFORE OPTIONAL");
         Optional<NoteEntity> noteData = noteRepository.findById(noteId);
+        System.out.println("AFTER OPTIONAL");
 
         if (noteData.isPresent()) {
+            System.out.println("IN IS PRESENT");
             return toModel(updateEntity(receivedModel));
         } else {
             throw new NoteNotFoundException();
