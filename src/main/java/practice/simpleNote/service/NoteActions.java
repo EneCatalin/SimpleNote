@@ -16,12 +16,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class NoteService {
+public class NoteActions {
 
     private final NoteRepository noteRepository;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository) {
+    public NoteActions(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
     }
 

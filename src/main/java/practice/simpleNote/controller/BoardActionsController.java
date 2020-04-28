@@ -5,10 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.customExceptions.NoteNotFoundException;
+import practice.simpleNote.dto.DeleteNoteDTO;
 import practice.simpleNote.dto.NoteDTO;
+import practice.simpleNote.model.BoardModel;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.service.BoardActionsService;
-import practice.simpleNote.service.NoteService;
+import practice.simpleNote.service.BoardService;
+import practice.simpleNote.service.NoteActions;
 
 @RestController
 @RequestMapping("/boardActions")
@@ -16,12 +19,15 @@ public class BoardActionsController {
 
 
     private final BoardActionsService boardActionsService;
-    private final NoteService noteService;
+    private final NoteActions noteActions;
+    private final BoardService boardService;
 
 
-    public BoardActionsController(BoardActionsService boardActionsService, NoteService noteService) {
+    public BoardActionsController(BoardActionsService boardActionsService, NoteActions noteActions,
+                                  BoardService boardService) {
         this.boardActionsService = boardActionsService;
-        this.noteService = noteService;
+        this.noteActions = noteActions;
+        this.boardService=  boardService;
     }
 
     @ExceptionHandler({ResponseStatusException.class})
@@ -34,19 +40,17 @@ public class BoardActionsController {
         return new ResponseEntity<>(note, HttpStatus.OK);
     }
 
-//    //TODO MAKE THIS FUNCTION RETURN A NOTEMODEL
     @PostMapping("/editNote/{noteId}")
     public ResponseEntity<NoteModel> editNote(@PathVariable("noteId") String noteId,@RequestBody NoteDTO noteDTO) throws NoteNotFoundException {
-        return new ResponseEntity<>(noteService.updateNoteModel(noteId,noteDTO),HttpStatus.OK);
+        return new ResponseEntity<>(noteActions.updateNoteModel(noteId,noteDTO),HttpStatus.OK);
 
     }
 
-    //TODO write this function
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/deleteNote")
-    public ResponseEntity<String> removeNote(@RequestBody NoteDTO noteDTO) throws Exception {
-        boardActionsService.removeNote(noteDTO.boardId,noteDTO.id);
+    public ResponseEntity<BoardModel> removeNote(@RequestBody DeleteNoteDTO deleteNoteDTO) throws Exception {
 
-        return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
+        return new ResponseEntity<>(boardActionsService.removeNote(deleteNoteDTO.boardId, deleteNoteDTO.noteId),
+                HttpStatus.OK);
     }
 }

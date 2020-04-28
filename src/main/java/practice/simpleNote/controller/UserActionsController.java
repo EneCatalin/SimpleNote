@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.dto.BoardAndUserIds;
 import practice.simpleNote.dto.CreateBoard;
+import practice.simpleNote.model.BoardModel;
 import practice.simpleNote.service.UserActionsService;
 
 @RestController
@@ -18,14 +19,12 @@ public class UserActionsController {
         this.userActionsService = userActionsService;
     }
 
-    //TODO fix the return statement
-    //TODO make it so you can't join the same board twice
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/joinBoard")
-    public ResponseEntity<String> joinBoard(@RequestBody BoardAndUserIds userBoardpojo) throws Exception {
-        userActionsService.joinBoard(userBoardpojo.userId, userBoardpojo.boardId);
+    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIds userBoardpojo) throws Exception {
+        BoardModel board= userActionsService.joinBoard(userBoardpojo.userId, userBoardpojo.boardId);
 
-        return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
+        return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
     //TODO fix the return statement
@@ -35,7 +34,7 @@ public class UserActionsController {
     public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIds boardAndUserIds) throws Exception {
         userActionsService.leaveBoard(boardAndUserIds.userId, boardAndUserIds.boardId);
 
-        return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
+        return new ResponseEntity<>("Action was successful", HttpStatus.OK);
     }
 
     @ExceptionHandler({ResponseStatusException.class})

@@ -6,12 +6,13 @@ import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.entity.BoardEntity;
 import practice.simpleNote.entity.NoteEntity;
+import practice.simpleNote.model.BoardModel;
 import practice.simpleNote.model.NoteModel;
 import practice.simpleNote.repository.BoardRepository;
 import practice.simpleNote.repository.NoteRepository;
 
 import java.util.Optional;
-
+//TODO refactor this shit class
 @Service
 public class BoardActionsService {
 
@@ -20,14 +21,16 @@ public class BoardActionsService {
     //TODO ask if this really belongs here or I should EITHER
     // A: move the methods i am importing to a separate class (what would it be called ???)
     // B: rewrite the methods I am importing here (this seems kind of a waste ???)
-    private final NoteService noteService;
+    private final NoteActions noteActions;
+    private final BoardService boardActions;
 
 
 
-    public BoardActionsService(BoardRepository boardRepository, NoteRepository noteRepository, NoteService noteService) {
+    public BoardActionsService(BoardRepository boardRepository, NoteRepository noteRepository, NoteActions noteActions, BoardService boardActions) {
         this.boardRepository = boardRepository;
         this.noteRepository = noteRepository;
-        this.noteService = noteService;
+        this.noteActions = noteActions;
+        this.boardActions = boardActions;
     }
 
 
@@ -60,20 +63,16 @@ public class BoardActionsService {
         return boardEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.BoardNotFound));
     }
 
-//    @ExceptionHandler(value = { NoteNotFoundException.class })
-//    public NoteModel editNote(String noteId, NoteModel noteModel) throws NoteNotFoundException {
-//
-//        //WE COULD CHECK IF THE BOARD STILL EXISTS TO ENSUE WE DON'T EDIT NOTES OUTSIDE OUR BOARD
-//
-//        System.out.println("IN SERVICE");
-//        return noteService.updateNoteModel(noteId,noteModel);
-//
-//    }
+
+    public BoardModel removeNote (String boardId, String noteId){
 
 
+        noteActions.deleteNoteEntity(noteId);
 
-    public void removeNote(String boardId, String NoteId){
-
+        return boardActions.getBoardModel(boardId);
     }
+
+    //TODO maybe create an empty board function ?
+
 
 }

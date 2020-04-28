@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.entity.BoardEntity;
 import practice.simpleNote.entity.UserEntity;
+import practice.simpleNote.model.BoardModel;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.BoardRepository;
 import practice.simpleNote.repository.UserRepository;
@@ -17,11 +18,13 @@ public class UserActionsService {
 
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
+    private final BoardService boardActions;
 
 
-    public UserActionsService(UserRepository userRepository, BoardRepository boardRepository) {
+    public UserActionsService(UserRepository userRepository, BoardRepository boardRepository, BoardService boardActions) {
         this.userRepository = userRepository;
         this.boardRepository = boardRepository;
+        this.boardActions = boardActions;
     }
 
 
@@ -44,13 +47,15 @@ public class UserActionsService {
     }
 
     //TODO consider a return type ?
-    public void joinBoard(String userId, String boardId){
+    public BoardModel joinBoard(String userId, String boardId){
         UserEntity user = getUserEntity(userId);
         BoardEntity board=getBoardEntity(boardId);
 
         user.addBoard(board);
 
         userRepository.save(user);
+
+        return boardActions.getBoardModel(boardId);
 
     }
 
