@@ -76,4 +76,11 @@ public class UserEntity implements Serializable {
         board.getUsers().remove(this);
     }
 
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }

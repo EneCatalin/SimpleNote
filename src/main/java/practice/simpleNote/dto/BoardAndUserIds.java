@@ -4,4 +4,12 @@ package practice.simpleNote.dto;
 public class BoardAndUserIds {
     public String userId;
     public String boardId;
+
+    @Override
+    public String toString() {
+        return "BoardAndUserIds{" +
+                "userId='" + userId + '\'' +
+                ", boardId='" + boardId + '\'' +
+                '}';
+    }
 }

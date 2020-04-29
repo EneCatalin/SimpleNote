@@ -2,8 +2,11 @@ package practice.simpleNote.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.dto.BoardAndUserIds;
 import practice.simpleNote.dto.CreateBoard;
 import practice.simpleNote.model.BoardModel;
@@ -19,30 +22,33 @@ public class UserActionsController {
         this.userActionsService = userActionsService;
     }
 
-    @ExceptionHandler({ResponseStatusException.class})
+    //TODO make it so you can't join a board you are not part of
+    //TODO that's NOT A POJO, IT'S A DTO
     @PostMapping("/joinBoard")
-    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIds userBoardpojo) throws Exception {
+    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIds userBoardpojo)  {
         BoardModel board= userActionsService.joinBoard(userBoardpojo.userId, userBoardpojo.boardId);
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
-    //TODO fix the return statement
     //TODO make it so you can't leave a board you are not part of
-    @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/leaveBoard")
-    public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIds boardAndUserIds) throws Exception {
+    public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIds boardAndUserIds)  {
+
         userActionsService.leaveBoard(boardAndUserIds.userId, boardAndUserIds.boardId);
 
-        return new ResponseEntity<>("Action was successful", HttpStatus.OK);
+        return new ResponseEntity<>(Constants.success, HttpStatus.OK);
     }
 
-    @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/createBoard")
-    public ResponseEntity<String> createBoard(@RequestBody CreateBoard createBoardDTO) throws Exception {
-        userActionsService.createUserBoard(createBoardDTO.userId, createBoardDTO.boardTitle);
+    public ResponseEntity<BoardModel> createBoard(@RequestBody CreateBoard createBoardDTO) {
 
-        return new ResponseEntity<>("Temporary Ok Message", HttpStatus.OK);
+        System.out.println("ARE WE EVEN HERE ?");
+        System.out.println(createBoardDTO.toString());
+
+        BoardModel board =  userActionsService.createUserBoard(createBoardDTO.userId, createBoardDTO.boardTitle);
+
+        return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
 }

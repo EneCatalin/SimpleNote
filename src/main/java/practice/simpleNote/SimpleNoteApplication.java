@@ -18,4 +18,7 @@ public class SimpleNoteApplication {
 
 	//TODO IMPORTANT: SHOULD THE USER BE ABLE TO ADD EMPTY NOTES WITH JUST A TITLE ?
 	//TODO PROBABLY YES, FIND A WAY TO ALLOW THAT TO HAPPEN
+
+	//TODO create a delete board ? But that raises the issue of adding special roles for users and complicates
+	// the project for no reason
 }

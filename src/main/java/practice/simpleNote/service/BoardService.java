@@ -70,7 +70,7 @@ public class BoardService {
         return boardEntityToModel(board);
     }
 
-    private BoardModel boardEntityToModel(BoardEntity board) {
+    public BoardModel boardEntityToModel(BoardEntity board) {
         //get associated notes
         Set<NoteEntity> noteEntities = noteRepository.findByboard(board);
 

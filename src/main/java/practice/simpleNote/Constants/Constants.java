@@ -8,4 +8,6 @@ public class Constants {
 
     public static final String blankUserNameModelMessage ="Please enter a username for the user!";
 
+    public static final String success= "Action was successful ";
+
 }

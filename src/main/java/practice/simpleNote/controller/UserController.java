@@ -43,6 +43,8 @@ public class UserController {
 
     }
 
+    //TODO refactor to use a DTO
+    // also why tf are we sending an id to a create ????
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/createUser")
     public ResponseEntity<UserModel> createUser(@RequestBody @Valid UserModel user) throws Exception {
@@ -51,6 +53,7 @@ public class UserController {
     }
 
 
+    //TODO refactor to use a DTO
     @PutMapping("/{id}")
     public ResponseEntity<UserModel> updateUser(@PathVariable("id") String userId,
                                                 @RequestBody @Valid UserModel userModel) throws UserNotFoundException {

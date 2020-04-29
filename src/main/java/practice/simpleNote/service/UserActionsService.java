@@ -11,6 +11,7 @@ import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.BoardRepository;
 import practice.simpleNote.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,36 +20,59 @@ public class UserActionsService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final BoardService boardActions;
+    private final UserService userService;
 
 
-    public UserActionsService(UserRepository userRepository, BoardRepository boardRepository, BoardService boardActions) {
+    public UserActionsService(UserRepository userRepository, BoardRepository boardRepository, BoardService boardActions, UserService userService) {
         this.userRepository = userRepository;
         this.boardRepository = boardRepository;
         this.boardActions = boardActions;
+        this.userService = userService;
     }
 
 
 
-    //TODO consider a return type ?
+    //TODO check if user is a board member
+    // return a UserModel ???
     public void leaveBoard(String userId,String boardId){
+
         UserEntity user = getUserEntity(userId);
+
         BoardEntity board=getBoardEntity(boardId);
 
-        user.removeBoard(board);
+        List<UserModel> userModels = userService.filterUsersByBoard(boardId);
 
-        userRepository.save(user);
+        //check if there is only one member of that board
+        //if yes the board can be deleted so as not to waste space
+        if(userModels.size()== 1){
+
+            //remove the connection
+            user.removeBoard(board);
+            userRepository.save(user);
+            //leave the board
+            boardRepository.delete(board);
+
+        }else{
+            user.removeBoard(board);
+            userRepository.save(user);
+
+        }
+
     }
 
-    //TODO fix return statement
-    public void createUserBoard(String userId, String boardTitle) {
+    public BoardModel createUserBoard (String userId, String boardTitle) {
+
         BoardEntity board =  boardRepository.save(new BoardEntity(boardTitle));
 
         joinBoard(userId,board.getId());
+
+        return boardActions.boardEntityToModel(board);
     }
 
-    //TODO consider a return type ?
+
     public BoardModel joinBoard(String userId, String boardId){
         UserEntity user = getUserEntity(userId);
+
         BoardEntity board=getBoardEntity(boardId);
 
         user.addBoard(board);
@@ -68,6 +92,7 @@ public class UserActionsService {
 
         return userEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.UserNotFound));
     }
+
 
     private BoardEntity getBoardEntity(String boardId) throws ResponseStatusException {
         Optional<BoardEntity> boardEntity = boardRepository.findById(boardId);

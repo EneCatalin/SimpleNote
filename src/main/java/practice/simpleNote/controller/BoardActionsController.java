@@ -20,14 +20,12 @@ public class BoardActionsController {
 
     private final BoardActionsService boardActionsService;
     private final NoteActions noteActions;
-    private final BoardService boardService;
 
 
     public BoardActionsController(BoardActionsService boardActionsService, NoteActions noteActions,
                                   BoardService boardService) {
         this.boardActionsService = boardActionsService;
         this.noteActions = noteActions;
-        this.boardService=  boardService;
     }
 
     @ExceptionHandler({ResponseStatusException.class})
@@ -53,4 +51,5 @@ public class BoardActionsController {
         return new ResponseEntity<>(boardActionsService.removeNote(deleteNoteDTO.boardId, deleteNoteDTO.noteId),
                 HttpStatus.OK);
     }
+
 }
