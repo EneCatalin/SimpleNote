@@ -95,7 +95,7 @@ public class UserService {
 
 
     private void updateEntity(UserDTO userDTO, UserEntity userEntity) {
-        userEntity.setUsername(userDTO.username);
+        userEntity.setUsername(userDTO.getUsername());
         userRepository.save(userEntity);
     }
 

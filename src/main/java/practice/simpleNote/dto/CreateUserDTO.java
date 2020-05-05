@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 public class CreateUserDTO {
 
     @NotBlank(message = Constants.BlankUsernameMessage)
-    private String username;
+    private final String username;
 
     @JsonCreator
     public CreateUserDTO(@JsonProperty("username") String username) {
@@ -21,7 +21,4 @@ public class CreateUserDTO {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

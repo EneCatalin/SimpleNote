@@ -1,5 +1,7 @@
 package practice.simpleNote.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import practice.simpleNote.Constants.Constants;
 
 import javax.validation.constraints.NotBlank;
@@ -7,12 +9,21 @@ import javax.validation.constraints.NotBlank;
 public class UserDTO {
 
     @NotBlank(message = Constants.BlankUserIdMessage)
-    public String id;
+    private final String id;
     @NotBlank(message = Constants.BlankUsernameMessage)
-    public String username;
+    private final String username;
 
-    //For deserialisation purposes the DTO must have a zero-arg constructor.
-    //THE ABOVE IS SUPER TRIGGERING
-    public UserDTO() {
+    @JsonCreator
+    public UserDTO(@JsonProperty("id") String id,@JsonProperty("username") String username) {
+        this.id = id;
+        this.username = username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

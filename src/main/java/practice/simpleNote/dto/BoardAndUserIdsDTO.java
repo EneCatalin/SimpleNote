@@ -6,31 +6,32 @@ import practice.simpleNote.Constants.Constants;
 
 import javax.validation.constraints.NotBlank;
 
-public class CreateBoard {
+//No idea how to name this without it sounding stupid
+public class BoardAndUserIdsDTO {
     @NotBlank(message = Constants.BlankUserIdMessage)
     private final String userId;
-    @NotBlank(message = Constants.BlankBoardTitleMessage)
-    private final String boardTitle;
+    @NotBlank(message = Constants.BlankBoardIdMessage)
+    private final String boardId;
 
     @JsonCreator
-    public CreateBoard(@JsonProperty("userId") String userId,@JsonProperty("boardTitle") String boardTitle) {
+    public BoardAndUserIdsDTO(@JsonProperty("userId") String userId, @JsonProperty("boardId") String boardId) {
         this.userId = userId;
-        this.boardTitle = boardTitle;
+        this.boardId = boardId;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public String getBoardTitle() {
-        return boardTitle;
+    public String getBoardId() {
+        return boardId;
     }
 
     @Override
     public String toString() {
-        return "CreateBoard{" +
+        return "BoardAndUserIds{" +
                 "userId='" + userId + '\'' +
-                ", boardTitle='" + boardTitle + '\'' +
+                ", boardId='" + boardId + '\'' +
                 '}';
     }
 }

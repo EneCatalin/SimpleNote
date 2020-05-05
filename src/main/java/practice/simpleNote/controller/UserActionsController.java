@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import practice.simpleNote.Constants.Constants;
-import practice.simpleNote.dto.BoardAndUserIds;
+import practice.simpleNote.dto.BoardAndUserIdsDTO;
 import practice.simpleNote.dto.CreateBoard;
 import practice.simpleNote.model.BoardModel;
 import practice.simpleNote.service.UserActionsService;
@@ -23,16 +23,16 @@ public class UserActionsController {
     }
 
     @PostMapping("/joinBoard")
-    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIds userBoardDTO)  {
-        BoardModel board= userActionsService.joinBoard(userBoardDTO.userId, userBoardDTO.boardId);
+    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIdsDTO userBoardDTO)  {
+        BoardModel board= userActionsService.joinBoard(userBoardDTO.getUserId(), userBoardDTO.getBoardId());
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
     @PostMapping("/leaveBoard")
-    public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIds boardAndUserIds)  {
+    public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIdsDTO boardAndUserIdsDTO)  {
 
-        userActionsService.leaveBoard(boardAndUserIds.userId, boardAndUserIds.boardId);
+        userActionsService.leaveBoard(boardAndUserIdsDTO.getUserId(), boardAndUserIdsDTO.getBoardId());
 
         return new ResponseEntity<>(Constants.Success, HttpStatus.OK);
     }
