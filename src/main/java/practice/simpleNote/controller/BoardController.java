@@ -9,6 +9,9 @@ import practice.simpleNote.service.BoardService;
 
 import java.util.List;
 
+//DID NOT MAKE A CREATE ROUTE. Boards belong to users and should not exist with no user attached so
+// I kept it a user action. If such a route were to be added a simple copy paste should do the trick
+
 @RestController
 @RequestMapping("/boards")
 public class BoardController {
@@ -47,21 +50,14 @@ public class BoardController {
         return new ResponseEntity<>(boardService.deleteBoardEntity(id));
     }
 
-
-    //TODO should I also make a create route here ?
-
-
+//TODO add put mapping
+//
 //    @PutMapping("/{id}")
 //    public ResponseEntity<BoardModel> updateBoard(@PathVariable("id") String boardId,
 //                                                  @RequestBody @Valid BoardModel boardModel) throws BoardNotFoundException {
 //
 //        return new ResponseEntity<BoardModel>(boardService.updateBoardModel(boardModel, boardId), HttpStatus.OK);
 //    }
-//
-//    @PostMapping("/createBoard")
-//    public ResponseEntity<BoardModel> createBoard(@RequestBody @Valid BoardModel board) throws ResponseStatusException {
-//        return new ResponseEntity<>(boardService.createBoard(board), HttpStatus.OK);
-//    }
-//
+
 
 }

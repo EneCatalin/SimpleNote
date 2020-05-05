@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 
 public class UserModel {
     private String id;
-    @NotBlank(message = Constants.blankUserNameModelMessage)
+    @NotBlank(message = Constants.BlankUserNameModelMessage)
     private String username;
 
     public UserModel(String id, String username) {

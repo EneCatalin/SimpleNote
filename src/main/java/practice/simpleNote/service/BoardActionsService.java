@@ -67,12 +67,13 @@ public class BoardActionsService {
     public BoardModel removeNote (String boardId, String noteId){
 
 
+        //TODO this won't do, move the function to BoardActions, delete from there and return the status
         noteActions.deleteNoteEntity(noteId);
 
         return boardActions.getBoardModel(boardId);
     }
 
-    //TODO maybe create an empty board function ?
+    //TODO maybe create an empty the board function ?
 
 
 }

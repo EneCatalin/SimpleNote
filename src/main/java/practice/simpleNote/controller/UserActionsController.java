@@ -22,22 +22,19 @@ public class UserActionsController {
         this.userActionsService = userActionsService;
     }
 
-    //TODO make it so you can't join a board you are not part of
-    //TODO that's NOT A POJO, IT'S A DTO
     @PostMapping("/joinBoard")
-    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIds userBoardpojo)  {
-        BoardModel board= userActionsService.joinBoard(userBoardpojo.userId, userBoardpojo.boardId);
+    public ResponseEntity<BoardModel> joinBoard(@RequestBody BoardAndUserIds userBoardDTO)  {
+        BoardModel board= userActionsService.joinBoard(userBoardDTO.userId, userBoardDTO.boardId);
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
-    //TODO make it so you can't leave a board you are not part of
     @PostMapping("/leaveBoard")
     public ResponseEntity<String> leaveBoard(@RequestBody BoardAndUserIds boardAndUserIds)  {
 
         userActionsService.leaveBoard(boardAndUserIds.userId, boardAndUserIds.boardId);
 
-        return new ResponseEntity<>(Constants.success, HttpStatus.OK);
+        return new ResponseEntity<>(Constants.Success, HttpStatus.OK);
     }
 
     @PostMapping("/createBoard")

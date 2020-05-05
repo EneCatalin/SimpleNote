@@ -13,6 +13,7 @@ import practice.simpleNote.repository.NoteRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +25,25 @@ public class NoteActions {
     public NoteActions(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
     }
+
+
+    public Set<NoteEntity> filterNotesByBoardId(String boardId) {
+
+        //Hibernate generates some weird query by default so i wrote my own saner version that
+        //won't crash the project
+        //TODO check out wtf it does by default ???
+        Set<NoteEntity> notes =  noteRepository.findByboardId(boardId);
+        return notes;
+    }
+
+    public void deleteNotes(Set<NoteEntity> notes){
+
+        for (NoteEntity noteEntity : notes) {
+            noteRepository.delete(noteEntity);
+        }
+
+    }
+
 
     private NoteEntity getNoteEntity(String noteId) {
 
@@ -40,7 +60,7 @@ public class NoteActions {
     }
 
 
-    public HttpStatus deleteNoteEntity(String noteId) {
+    public void deleteNoteEntity(String noteId) {
 
         Optional<NoteEntity> optionalNoteEntity = noteRepository.findById(noteId);
 
@@ -49,7 +69,6 @@ public class NoteActions {
         }
 
         noteRepository.deleteById(noteId);
-        return HttpStatus.NO_CONTENT;
 
     }
 

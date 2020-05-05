@@ -22,7 +22,6 @@ public class NoteEntity {
     @Column(name = "content")
     private String content;
 
-    // WE ONLY NEED THE BOARD ID HERE
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id_fk", referencedColumnName = "id")
     private BoardEntity board;
