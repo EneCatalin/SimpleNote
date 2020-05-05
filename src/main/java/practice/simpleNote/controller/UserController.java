@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.customExceptions.UserNotFoundException;
+import practice.simpleNote.dto.CreateUserDTO;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.service.UserService;
 
@@ -47,7 +48,7 @@ public class UserController {
     // also why tf are we sending an id to a create ????
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/createUser")
-    public ResponseEntity<UserModel> createUser(@RequestBody @Valid UserModel user) throws Exception {
+    public ResponseEntity<UserModel> createUser(@RequestBody @Valid CreateUserDTO user) throws Exception {
 
         return new ResponseEntity<>(usersService.createUser(user), HttpStatus.OK);
     }

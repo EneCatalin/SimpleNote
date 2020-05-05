@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.customExceptions.UserNotFoundException;
+import practice.simpleNote.dto.CreateUserDTO;
 import practice.simpleNote.entity.UserEntity;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.UserRepository;
@@ -36,9 +37,9 @@ public class UserService {
     }
 
 
-    public UserModel createUser(UserModel userModel)
+    public UserModel createUser(CreateUserDTO userModel)
     {
-        return toModel(userRepository.save(fromModel(userModel)));
+        return toModel(userRepository.save(fromDto(userModel)));
     }
 
     public UserModel getUserModel(String userId) {
@@ -87,9 +88,10 @@ public class UserService {
         return new UserModel(userEntity.getId(), userEntity.getUsername());
     }
 
-    private UserEntity fromModel(UserModel model) {
-        return new UserEntity(model.getUsername());
+    private UserEntity fromDto(CreateUserDTO userDTO) {
+        return new UserEntity(userDTO.username);
     }
+
 
     private void updateEntity(UserModel receivedModel, UserEntity userEntity) {
         userEntity.setUsername(receivedModel.getUsername());
