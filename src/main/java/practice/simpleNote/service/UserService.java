@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.Constants.Constants;
 import practice.simpleNote.customExceptions.UserNotFoundException;
 import practice.simpleNote.dto.CreateUserDTO;
+import practice.simpleNote.dto.UserDTO;
 import practice.simpleNote.entity.UserEntity;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.repository.UserRepository;
@@ -59,12 +60,12 @@ public class UserService {
 
     }
 
-    public UserModel updateUserModel(UserModel receivedModel, String userId) throws UserNotFoundException {
+    public UserModel updateUser(UserDTO userDTO, String userId) throws UserNotFoundException {
         Optional<UserEntity> userData = userRepository.findById(userId);
 
         if (userData.isPresent()) {
             UserEntity userEntity = userData.get();
-            updateEntity(receivedModel, userEntity);
+            updateEntity(userDTO, userEntity);
 
             return toModel(userEntity);
         } else {
@@ -93,8 +94,8 @@ public class UserService {
     }
 
 
-    private void updateEntity(UserModel receivedModel, UserEntity userEntity) {
-        userEntity.setUsername(receivedModel.getUsername());
+    private void updateEntity(UserDTO userDTO, UserEntity userEntity) {
+        userEntity.setUsername(userDTO.username);
         userRepository.save(userEntity);
     }
 

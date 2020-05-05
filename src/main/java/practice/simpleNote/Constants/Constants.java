@@ -6,7 +6,8 @@ public class Constants {
     public static final String NoteNotFound= "Note Not Found";
     public static final String UserNotFound= "User Not Found";
 
-    public static final String BlankUserNameModelMessage ="Please enter a username for the user!";
+    public static final String BlankUserIdMessage ="Please enter an id for the user!";
+    public static final String BlankUsernameMessage ="Please enter a username for the user!";
 
     public static final String Success = "Action was successful ";
 

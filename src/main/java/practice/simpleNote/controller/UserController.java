@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import practice.simpleNote.customExceptions.UserNotFoundException;
 import practice.simpleNote.dto.CreateUserDTO;
+import practice.simpleNote.dto.UserDTO;
 import practice.simpleNote.model.UserModel;
 import practice.simpleNote.service.UserService;
 
@@ -44,8 +45,6 @@ public class UserController {
 
     }
 
-    //TODO refactor to use a DTO
-    // also why tf are we sending an id to a create ????
     @ExceptionHandler({ResponseStatusException.class})
     @PostMapping("/createUser")
     public ResponseEntity<UserModel> createUser(@RequestBody @Valid CreateUserDTO user) throws Exception {
@@ -57,8 +56,8 @@ public class UserController {
     //TODO refactor to use a DTO
     @PutMapping("/{id}")
     public ResponseEntity<UserModel> updateUser(@PathVariable("id") String userId,
-                                                @RequestBody @Valid UserModel userModel) throws UserNotFoundException {
-        return new ResponseEntity<UserModel>(usersService.updateUserModel(userModel,userId),HttpStatus.OK);
+                                                @RequestBody @Valid UserDTO userDTO) throws UserNotFoundException {
+        return new ResponseEntity<UserModel>(usersService.updateUser(userDTO,userId),HttpStatus.OK);
     }
 
 
