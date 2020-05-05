@@ -32,15 +32,15 @@ public class BoardActionsController {
     @PostMapping("/addNote")
     public ResponseEntity<NoteModel> addNote(@RequestBody NoteDTO noteDTO) throws Exception {
 
-        NoteModel note =  boardActionsService.addNote(noteDTO.boardId,noteDTO.title,
-                noteDTO.content);
+        NoteModel note =  boardActionsService.addNote(noteDTO.getBoardId(),noteDTO.getTitle(),
+                noteDTO.getContent());
 
         return new ResponseEntity<>(note, HttpStatus.OK);
     }
 
     @PostMapping("/editNote/{noteId}")
     public ResponseEntity<NoteModel> editNote(@PathVariable("noteId") String noteId,@RequestBody NoteDTO noteDTO) throws NoteNotFoundException {
-        return new ResponseEntity<>(noteActions.updateNoteModel(noteId,noteDTO),HttpStatus.OK);
+        return new ResponseEntity<>(noteActions.updateNote(noteId,noteDTO),HttpStatus.OK);
 
     }
 
@@ -48,7 +48,7 @@ public class BoardActionsController {
     @PostMapping("/deleteNote")
     public ResponseEntity<BoardModel> removeNote(@RequestBody DeleteNoteDTO deleteNoteDTO) throws Exception {
 
-        return new ResponseEntity<>(boardActionsService.removeNote(deleteNoteDTO.boardId, deleteNoteDTO.noteId),
+        return new ResponseEntity<>(boardActionsService.removeNote(deleteNoteDTO.getBoardId(), deleteNoteDTO.getNoteId()),
                 HttpStatus.OK);
     }
 

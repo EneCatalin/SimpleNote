@@ -36,7 +36,8 @@ public class BoardActionsService {
 
     public NoteModel addNote(String boardId, String noteTitle,String noteContent){
 
-        //check if there is a board with that id first
+        //TODO check if hibernate checks for invalid ids so this line can get deleted
+        //checks if there is a board with that id first
         //DO NOT DELETE OR YOU RISK ADDING NOTES WITH NO ACTUAL BOARD ATTACHED
         //TODO check if it's ok to write stuff like this or if I use optional here and get the entity myself
         BoardEntity board=getBoardEntity(boardId);

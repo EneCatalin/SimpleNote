@@ -32,8 +32,7 @@ public class NoteActions {
         //Hibernate generates some weird query by default so i wrote my own saner version that
         //won't crash the project
         //TODO check out wtf it does by default ???
-        Set<NoteEntity> notes =  noteRepository.findByboardId(boardId);
-        return notes;
+        return noteRepository.findByboardId(boardId);
     }
 
     public void deleteNotes(Set<NoteEntity> notes){
@@ -45,19 +44,19 @@ public class NoteActions {
     }
 
 
-    private NoteEntity getNoteEntity(String noteId) {
+//    private NoteEntity getNoteEntity(String noteId) {
+//
+//        Optional<NoteEntity> noteEntity = noteRepository.findById(noteId);
+//
+//
+//        return noteEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NoteNotFound));
+//
+//    }
 
-        Optional<NoteEntity> noteEntity = noteRepository.findById(noteId);
-
-
-        return noteEntity.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.NoteNotFound));
-
-    }
-
-    public NoteModel createNote(NoteDTO noteDTO)
-    {
-        return entityToModel(noteRepository.save(entityFromDTO(noteDTO)));
-    }
+//    public NoteModel createNote(NoteDTO noteDTO)
+//    {
+//        return entityToModel(noteRepository.save(entityFromDTO(noteDTO)));
+//    }
 
 
     public void deleteNoteEntity(String noteId) {
@@ -77,19 +76,19 @@ public class NoteActions {
         return noteRepository.findAll().stream().map(this::entityToModel).collect(Collectors.toList());
     }
 
-    public NoteModel updateNoteModel(String noteId, NoteDTO noteDto) throws NoteNotFoundException {
+    public NoteModel updateNote(String noteId, NoteDTO noteDto) throws NoteNotFoundException {
         Optional<NoteEntity> noteData = noteRepository.findById(noteId);
 
         if (noteData.isPresent()) {
-            return entityToModel(updateEntity(noteDto));
+            return entityToModel(updateEntityFromDTO(noteDto));
         } else {
             throw new NoteNotFoundException();
         }
     }
 
-    public NoteModel getNoteModel(String noteId) {
-        return entityToModel(this.getNoteEntity(noteId));
-    }
+//    public NoteModel getNoteModel(String noteId) {
+//        return entityToModel(this.getNoteEntity(noteId));
+//    }
 
 
     private NoteModel entityToModel(NoteEntity noteEntity) {
@@ -97,15 +96,15 @@ public class NoteActions {
     }
 
     private NoteEntity entityFromDTO(NoteDTO noteDTO) {
-        return new NoteEntity(noteDTO.title,noteDTO.content,noteDTO.boardId);
+        return new NoteEntity(noteDTO.getTitle(),noteDTO.getContent(),noteDTO.getBoardId());
     }
 
 
 
     // AFFECTS THE DATABASE BY USING REPOSITORY.GET!!!
-    private NoteEntity updateEntity(NoteDTO noteDTO) {
-       return noteRepository.save(new NoteEntity(noteDTO.id,noteDTO.title, noteDTO.content,
-                noteDTO.boardId));
+    private NoteEntity updateEntityFromDTO(NoteDTO noteDTO) {
+       return noteRepository.save(new NoteEntity(noteDTO.getId(),noteDTO.getTitle(), noteDTO.getContent(),
+                noteDTO.getBoardId()));
     }
 
 

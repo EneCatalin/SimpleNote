@@ -1,12 +1,37 @@
 package practice.simpleNote.dto;
 
-public class CreateBoard {
-    public String userId;
-    public String boardTitle;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import practice.simpleNote.Constants.Constants;
 
-    //For deserialisation purposes the DTO must have a zero-arg constructor.
-    //THE ABOVE IS SUPER TRIGGERING
-    public CreateBoard() {
+import javax.validation.constraints.NotBlank;
+
+public class CreateBoard {
+    @NotBlank(message = Constants.BlankUserIdMessage)
+    private String userId;
+    @NotBlank(message = Constants.BlankBoardTitleMessage)
+    private String boardTitle;
+
+    @JsonCreator
+    public CreateBoard(@JsonProperty("userId") String userId,@JsonProperty("boardTitle") String boardTitle) {
+        this.userId = userId;
+        this.boardTitle = boardTitle;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getBoardTitle() {
+        return boardTitle;
+    }
+
+    public void setBoardTitle(String boardTitle) {
+        this.boardTitle = boardTitle;
     }
 
     @Override

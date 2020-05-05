@@ -43,7 +43,7 @@ public class UserActionsController {
         System.out.println("ARE WE EVEN HERE ?");
         System.out.println(createBoardDTO.toString());
 
-        BoardModel board =  userActionsService.createUserBoard(createBoardDTO.userId, createBoardDTO.boardTitle);
+        BoardModel board =  userActionsService.createUserBoard(createBoardDTO.getUserId(), createBoardDTO.getBoardTitle());
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }

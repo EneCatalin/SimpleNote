@@ -38,9 +38,9 @@ public class UserService {
     }
 
 
-    public UserModel createUser(CreateUserDTO userModel)
+    public UserModel createUser(CreateUserDTO userDTO)
     {
-        return toModel(userRepository.save(fromDto(userModel)));
+        return toModel(userRepository.save(fromDto(userDTO)));
     }
 
     public UserModel getUserModel(String userId) {
@@ -90,7 +90,7 @@ public class UserService {
     }
 
     private UserEntity fromDto(CreateUserDTO userDTO) {
-        return new UserEntity(userDTO.username);
+        return new UserEntity(userDTO.getUsername());
     }
 
 
