@@ -17,4 +17,11 @@ public class SimpleNoteApplication {
 
 	// TODO create a delete board ? But that raises the issue of adding special roles for users and complicates
 	// the project for no reason
+
 }
+
+//NOTE ABOUT THE DTOS
+// I made them static final since i saw no reason for the variables to ever change
+// Also earlier DTO implementations had everything public and no constructor but that's apparently bad practice
+// Also making the DTOs private but not annotating the constructor forces you to create an empty one for
+// deserialization which is no bueno

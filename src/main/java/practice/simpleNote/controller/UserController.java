@@ -53,7 +53,6 @@ public class UserController {
     }
 
 
-    //TODO refactor to use a DTO
     @PutMapping("/{id}")
     public ResponseEntity<UserModel> updateUser(@PathVariable("id") String userId,
                                                 @RequestBody @Valid UserDTO userDTO) throws UserNotFoundException {
